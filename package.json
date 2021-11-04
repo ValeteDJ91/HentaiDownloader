@@ -1,0 +1,23 @@
+{
+  "name": "hentaidownloader",
+  "version": "0.1.0",
+  "description": "A way to download hentai from various sites.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Valete_",
+  "license": "GNU",
+  "repository": {
+    "type": "git",
+    "url": "github"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "chalk": "^4.1.2",
+    "figlet": "^1.5.2",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.2.0",
+    "shelljs": "^0.8.4"
+  }
+}
