@@ -4,7 +4,7 @@ const inquirer = require("inquirer")
 const fs = require('fs')
 const fsPromises = fs.promises;
 
-var ehDownloadRegex = {
+var regexindex = {
 	imageURL: /<img id="img" src="(\S+?)"/,
 	imagepagesURL: /(?:<a href="https:\/\/e-hentai.org\/s\/).+?(?=")/gi,
 	imagenumber: /<p class="gpc">[\s\S]*<\/p>/i,
@@ -54,19 +54,19 @@ exports.execute = async () => {
     timeout: 10000,
     headers: {'X-Requested-With': 'XMLHttpRequest', Cookie: "nw=1;"}
   })
-	rawmain.data.match(ehDownloadRegex.imagepagesURL).forEach(element => {
+	rawmain.data.match(regexindex.imagepagesURL).forEach(element => {
 		allimagepages.push(element.slice(9))
 	})
-	console.log("Number of image pages: "+Math.ceil(rawmain.data.match(ehDownloadRegex.imagenumber)[0].split(" ")[6]/40))
-	var currentitle = rawmain.data.match(ehDownloadRegex.title)[0].slice(12,-22)
-	var pagenumber = Math.ceil(rawmain.data.match(ehDownloadRegex.imagenumber)[0].split(" ")[6]/40)
+	console.log("Number of image pages: "+Math.ceil(rawmain.data.match(regexindex.imagenumber)[0].split(" ")[6]/40))
+	var currentitle = rawmain.data.match(regexindex.title)[0].slice(12,-22)
+	var pagenumber = Math.ceil(rawmain.data.match(regexindex.imagenumber)[0].split(" ")[6]/40)
 	// fetching all image pages
 	while (j<pagenumber) {
 		let rawsecd = await axios.get(URL.siteurl+"?p="+j, {
 			timeout: 10000,
 			headers: {'X-Requested-With': 'XMLHttpRequest', Cookie: "nw=1;"}
 		})
-		rawsecd.data.match(ehDownloadRegex.imagepagesURL).forEach(element => {
+		rawsecd.data.match(regexindex.imagepagesURL).forEach(element => {
 			allimagepages.push(element.slice(9))
 		})
 		j+=1
@@ -79,8 +79,8 @@ exports.execute = async () => {
   	  headers: {'X-Requested-With': 'XMLHttpRequest', Cookie: "nw=1;"}
   	})
 		// Download all images
-		var imagename = /[^/]*$/.exec(rawimage.data.match(ehDownloadRegex.imageURL)[1])[0];
-		await imagedownload(rawimage.data.match(ehDownloadRegex.imageURL)[1], i+"_"+imagename, currentitle)
+		var imagename = /[^/]*$/.exec(rawimage.data.match(regexindex.imageURL)[1])[0];
+		await imagedownload(rawimage.data.match(regexindex.imageURL)[1], i+"_"+imagename, currentitle)
 		i+=1
 	}
 	return 1+" Finished executing successfully"
